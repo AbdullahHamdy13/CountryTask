@@ -1,0 +1,58 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <link rel="stylesheet" href="details.css">
+  <body id="body">
+    <header class="header">
+        <h2>where in the world?</h2>
+        <button id="DarkModeButton">Dark Mode</button>
+    </header>
+    <div id="MainBox">
+        <button id="Backbutton" onclick="location.href='home.html'">Back</button>
+    </div>
+    <div id="details">
+        <img src="https://flagcdn.com/w320/de.png">
+        <section id="detailssections">
+            <h2>Germany</h2>
+           <p>Native Name: Deutsch</p>
+           <p>Population: 83,240,525</p>
+           <p>Region: Europe</p>
+           <p>Sub Region: Central Europe</p>
+           <p>Capital: Berlin</p>
+           <section id="ThirdSection">
+            <p>Border Countries:</p>
+            <button>Belgium</button>
+            <button>Denemark</button>
+            <button>France</button>
+           </section>
+     </section>
+     <section id="SecondSection">
+        <p>Top Level Domain: .de</p>
+        <p>Currencies: Euro</p>
+        <p>Languages: German</p>
+     </section>
+    </div>
+    <script>
+
+const darkmodebutton=document.querySelector("#DarkModeButton");
+const body=document.querySelector("#body");
+const header=document.querySelector(".header");
+const Backbutton=document.querySelector("#Backbutton");
+const detailssections=document.querySelector("#detailssections")
+const SecondSection=document.querySelector("#SecondSection");
+       
+        darkmodebutton.addEventListener('click',function(){
+        body.style.background='hsl(207, 26%, 17%)';
+        header.style.background='hsl(209, 23%, 22%)';
+        header.style.color='white';
+        Backbutton.style.color='white';
+        detailssections.style.color='white';
+        SecondSection.style.color='white';
+      })
+    </script>
+  </body>
+</head>
