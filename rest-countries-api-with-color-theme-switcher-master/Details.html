@@ -1,0 +1,137 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <link rel="stylesheet" href="details.css">
+  <body id="body">
+    <header class="header">
+        <h2>where in the world?</h2>
+        <button id="DarkModeButton">Dark Mode</button>
+    </header>
+    <div id="MainBox">
+        <button id="Backbutton" onclick="location.href='home.html'">Back</button>
+    </div>
+    <div id="details">
+    </div>
+    <script>
+const darkmodebutton=document.querySelector("#DarkModeButton");
+const body=document.querySelector("#body");
+const header=document.querySelector(".header");
+const Backbutton=document.querySelector("#Backbutton");
+const detailssections=document.querySelector("#detailssections")
+const SecondSection=document.querySelector("#SecondSection");
+       
+        darkmodebutton.addEventListener('click',function(){
+        body.style.background='hsl(207, 26%, 17%)';
+        header.style.background='hsl(209, 23%, 22%)';
+        header.style.color='white';
+        Backbutton.style.color='white';
+        detailssections.style.color='white';
+        SecondSection.style.color='white';
+      })
+
+      function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const countryName = getQueryParam('name');
+
+        if(countryName){
+        fetch(`https://restcountries.com/v3.1/name/${countryName}`)
+    .then(ReturnedData => {
+      return ReturnedData.json();
+    }).then(data =>{
+      const allcountries=data.map(country =>{
+        let capital=''
+        let tld=''
+        let borders=''
+        let languages=''
+        if (country.name.nativeName && country.currencies) {
+          const firstLanguageKey = Object.keys(country.name.nativeName)[0];
+          nativeName = country.name.nativeName[firstLanguageKey].common;
+          const firstcurrencykey= Object.keys(country.currencies)[0];
+          currencies=country.currencies[firstcurrencykey].name;
+        }
+        if(country.borders){
+          borders=country.borders.slice(0,3).join(",");
+        }
+        if(country.capital){
+          capital=country.capital.join();
+        }
+        if(country.tld){
+          tld=country.tld.join();
+        }
+        if(country.languages){
+          languages=Object.values(country.languages).join(",");
+        }
+        
+        return{
+        flags:country.flags.png,
+        name:country.name.common,
+        nativeName:nativeName,
+        population:country.population,
+        region:country.region,
+        subregion:country.subregion,
+        capital:capital,
+        topleveldomain:tld,
+        currencies:currencies,
+        languages:languages,
+        borders:borders
+        }
+
+      })
+
+const details=document.getElementById("details")
+details.innerHTML=''
+      allcountries.forEach(country => {
+        details.innerHTML=`
+         <img src="${country.flags}">
+        `
+        const card2=document.createElement("section");
+        card2.classList.add("detailssections");
+        card2.innerHTML=`
+        <section id="detailssections">
+           <h2>${country.name}</h2>
+           <p>NativeName: ${nativeName}</p>
+           <p>population: ${country.population}</p>
+           <p>Region: ${country.region}</p>
+           <p>Sub Region: ${country.subregion}</p>
+           <p>Capital: ${country.capital}</p>
+           <section id="ThirdSection">
+            <p>Border Countries: </p>
+            <P>${country.borders}</P>
+           </section>
+     </section>
+        `
+
+        details.appendChild(card2);
+
+
+        const card3=document.createElement("section");
+        card3.classList.add("SecondSection");
+        card3.innerHTML=`
+        <section id="SecondSection">
+        <p>Top Level Domain: ${country.tld}</p>
+        <p>Currencies:  ${country.currencies}</p>
+        <p>Languages: ${country.languages}</p>
+     </section>
+        `
+        details.appendChild(card3)
+        
+      });
+
+    })
+        }
+
+      
+
+
+
+
+
+    </script>
+  </body>
+</head>

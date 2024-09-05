@@ -63,27 +63,28 @@
 }
 #details img{
     height: 75%;
-    width:60%;
+    width:40%;
 }
 #detailssections{
-    width: 50%;
-    padding-top: 2%;
-    display: flex;
-    flex-direction: column;
-    row-gap: 3%;
-}
-#SecondSection{
-    width: 50%;
+    width: 100%;
+    height: 100%;
     padding-top: 5%;
     display: flex;
     flex-direction: column;
-    row-gap: 3%;
+    row-gap: 5%;
+}
+#SecondSection{
+    width: 100%;
+    height: 100%;
+    padding-top: 29%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5%;
 }
 #ThirdSection{
     width: 100%;
     padding-top: 11%;
     display: flex;
-    column-gap: 8%;
 }
 #ThirdSection button{
     border:2px solid lightgray;

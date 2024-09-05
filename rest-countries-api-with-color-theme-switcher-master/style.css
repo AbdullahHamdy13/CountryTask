@@ -34,7 +34,7 @@
 #MainBox{
     padding: 2%;
     padding-left: 7.5%;
-    width: 86%;
+    width: 87%;
     display: flex;
     flex-direction: row;
     column-gap: 51%;
@@ -72,8 +72,9 @@ input[type=search].active::placeholder{
     padding: 1%;
 }
 #Grid{
-    width: 100%;
-    height: 74%;
+    width: 93%;
+    height: 100%;
+    padding-left: 3%;
     display: grid;
     align-items: center;
     justify-content: center;
@@ -91,8 +92,9 @@ input[type=search].active::placeholder{
     font-size: 30px;
     text-align: left;
     color: black;
+    cursor: pointer;
 }
-a{
+.GridItems a{
     text-decoration: none;
     color: none;
 }
@@ -123,6 +125,7 @@ a{
 .GridItems img{
     width: 100%;
     height: 50%;
+    object-fit: cover;
 }
 
 @media only screen and (max-width: 524px){

@@ -19,82 +19,11 @@
         <option value="Africa">Africa</option>
         <option value="America">Americas</option>
         <option value="Asia">Asia</option>
-        <option value="Europa">Europa</option>
+        <option value="Europa">Europe</option>
         <option value="Oceania">Oceania</option>
      </select>
     </div>
     <div id="Grid">
-      <a href="Germany.html"><div class="GridItems">
-        <img src="https://flagcdn.com/w320/de.png">
-        <h3>Germany</h3>
-        <p>population: 83,240,525</p>
-        <p class="Region">region: Europa</p>
-        <p>capital: Berlin</p>
-      </div>  
-    </a>
-    <a href="UnitedStates.html">
-      <div class="GridItems">
-        <img src="https://flagcdn.com/w320/um.png">
-        <h3>United States of America</h3>
-        <p>population: 329,484,123</p>
-        <p class="Region">region: Americas</p>
-        <p>capital: Washington, D.C.</p>
-      </div>
-    </a>
-    <a href="Brazil.html">
-      <div class="GridItems">
-        <img src="https://flagcdn.com/w320/br.png">
-        <h3>Brazil</h3>
-        <p>population: 212,559,409</p>
-        <p class="Region">region: Americas</p>
-        <p>capital: "Brasília</p>
-      </div>
-    </a>
-    <a href="Iceland.html">
-      <div class="GridItems">
-        <img src="https://flagcdn.com/w320/is.png">
-        <h3>Iceland</h3>
-        <p>population: 366,425</p>
-        <p class="Region">region: Europa</p>
-        <p>capital: Reykjavík</p>
-      </div>
-    </a>
-    <a href="Afghanistan.html">
-      <div class="GridItems">
-        <img src="https://flagcdn.com/w320/af.png">
-        <h3>Afghanistan</h3>
-        <p>population: 40,218,234</p>
-        <p class="Region">region: Asia</p>
-        <p>capital: Kabul</p>
-      </div>
-    </a>
-    <a href="AlandIslands.html">
-      <div class="GridItems">
-        <img src="https://flagcdn.com/w320/ax.png">
-        <h3>Åland Islands</h3>
-        <p>population: 28,875</p>
-        <p class="Region">region: Europa</p>
-        <p>capital: Mariehamn</p>
-      </div>
-    </a>
-    <a href="Albania.html">
-      <div class="GridItems">
-        <img src="https://flagcdn.com/w320/al.png">
-        <h3>Albania</h3>
-        <p>population: 2,837,743</p>
-        <p class="Region">region: Europa</p>
-        <p>capital: Tirana</p>
-      </div>
-    </a>
-    <a href="Algeria.html">
-      <div class="GridItems">
-        <img src="https://flagcdn.com/w320/dz.png">
-        <h3>Algeria</h3>
-        <p>population: 44,700,000</p>
-        <p class="Region">region: Africa</p>
-        <p>capital: Algiers</p>
-      </div>
-    </a>
     </div>
     <script>
 
@@ -121,31 +50,152 @@
         }
       })
 
-        search.addEventListener('input', function() {
-            const searchTerm = search.value.toLowerCase();
-            GridItems.forEach(x => {
-                const countryName = x.querySelector('h3').textContent.toLocaleLowerCase();
-                if (countryName.includes(searchTerm)) {
-                    x.parentElement.style.display = 'block';
-                } else {
-                    x.parentElement.style.display = 'none';
-                }
-            });
-        });
+
+fetch('https://restcountries.com/v3.1/all')
+    .then(ReturnedData => {
+        return ReturnedData.json();
+    })
+    .then(data => {      
+      
+        const FilterCountries = data.map(country =>({
+
+          flags:country.flags.png,
+          name:country.name.common,
+          population:country.population,
+          region:country.region,
+          capital:country.capital
+        }));
+        console.log(FilterCountries)
+
+        
+         FilterCountries.forEach(country =>{
+         const card = document.createElement('div');
+         card.classList.add('GridItems');
+         card.classList.add('a');
+         card.innerHTML = `
+         <img src="${country.flags}">
+         <h3>${country.name}</h3>
+         <p>Population: ${country.population}</p>
+         <p>Region: ${country.region}</p>
+         <p>Capital: ${country.capital}</p>
+       `;
+
+    
+       
+    grid.appendChild(card);
+    
+    card.addEventListener('click',function(){
+      window.location.href=`details.html?name=${encodeURIComponent(country.name)}`
+    })
+    
+})
 
 
-        filter.addEventListener('click', function() {
-    const selectedRegion = filter.value.toLowerCase(); 
-    GridItems.forEach(item => {
-        const region = item.querySelector('.Region').textContent.toLowerCase();
-        if (region.includes(selectedRegion)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
+    })
+    search.addEventListener('input', function() {
+      const searchvalue = search.value;
+      if (searchvalue) {
+        fetch(`https://restcountries.com/v3.1/name/${searchvalue}`)
+          .then(response => {
+             return response.json();
+         })
+      .then(data => {
+          const FilterCountries = data.map(country => ({
+          flags: country.flags.png,
+          name: country.name.common,
+          population: country.population,
+          region: country.region,
+          capital: country.capital
+        }));
+        grid.innerHTML = '';
+
+    FilterCountries.forEach(country => {
+    const card = document.createElement('div');
+    card.classList.add('GridItems');
+    card.innerHTML = `
+        <img src="${country.flags}">
+        <h3>${country.name}</h3>
+        <p>Population: ${country.population}</p>
+        <p>Region: ${country.region}</p>
+        <p>Capital: ${country.capital}</p>
+    `;
+    grid.appendChild(card);
 });
       
+  })
+        }else{
+          fetch('https://restcountries.com/v3.1/all')
+    .then(ReturnedData => {
+        return ReturnedData.json();
+    })
+    .then(data => {      
+      
+        const FilterCountries = data.map(country =>({
+
+          flags:country.flags.png,
+          name:country.name.common,
+          population:country.population,
+          region:country.region,
+          capital:country.capital
+        }));
+        console.log(FilterCountries)
+
+        
+          grid.innerHTML=''
+
+         FilterCountries.forEach(country =>{
+         const card = document.createElement('div');
+         card.classList.add('GridItems');
+         card.classList.add('a');
+         card.innerHTML = `
+         <img src="${country.flags}">
+         <h3>${country.name}</h3>
+         <p>Population: ${country.population}</p>
+         <p>Region: ${country.region}</p>
+         <p>Capital: ${country.capital}</p>
+       `;
+
+    grid.appendChild(card);
+})
+
+
+    })
+        }
+    });
+
+  filter.addEventListener('click',function(){
+    const filterValue=filter.value;
+    if(filterValue){
+      fetch(`https://restcountries.com/v3.1/region/${filterValue}`)
+       .then(response =>{
+        return response.json();
+       })
+       .then(data =>{
+        const FilterCountries=data.map(country =>({
+          flags:country.flags.png,
+          name:country.name.common,
+          population:country.population,
+          region:country.region,
+          capital:country.capital
+        }))
+
+        grid.innerHTML=''
+
+        FilterCountries.forEach(country =>{
+          const card=document.createElement('div')
+          card.classList.add('GridItems')
+          card.innerHTML=`
+          <img src="${country.flags}">
+          <h3>name: ${country.name}</h3>
+          <p>population: ${country.population}</p>
+          <p>region: ${country.region}</p>
+          <p>capital: ${country.capital}</p>
+          `
+          grid.appendChild(card);
+        })
+       })
+    }
+  })  
 
 
      
